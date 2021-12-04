@@ -11,6 +11,17 @@
   box-sizing: border-box;
 }
 
+.hero{
+  padding: 3%;
+  background-image: linear-gradient(to right, blue, rgb(2, 2, 73));
+}
+
+.app-title {
+  font-size: 3rem;
+  color: white;
+  justify-content: center;
+}
+
 body {
   background-color: var(--primary);
   margin: 0;
@@ -92,25 +103,6 @@ p {
   box-shadow: 2px 2px var(--dark);
 }
 
-.hero {
-  padding: 3% 4%;
-  background-color: var(--dark);
-  color: var(--primary);
-}
-
-.hero p {
-  max-width: 75%;
-}
-
-.app-title {
-  font-size: 3rem;
-  background-color: var(--primary);
-  color: var(--dark);
-  padding: 0 10px;
-  display: inline-block;
-  border-radius: var(--border-radius);
-  box-shadow: 6px 5px var(--light-dark);
-}
 
 .list-group {
   padding: 0;
