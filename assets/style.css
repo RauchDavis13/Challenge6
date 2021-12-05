@@ -12,11 +12,13 @@
 }
 
 .hero{
+  justify-content: center;
   padding: 3%;
   background-image: linear-gradient(to right, blue, rgb(2, 2, 73));
 }
 
 .app-title {
+  display: inline-flex;
   font-size: 3rem;
   color: white;
   justify-content: center;
