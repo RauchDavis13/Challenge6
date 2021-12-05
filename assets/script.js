@@ -4,16 +4,38 @@ var cityInputEl = document.querySelector("#cityName");
 var repoContainerEl = document.querySelector("#repos-container");
 var repoSearchTerm = document.querySelector("#repo-search-term");
 var apiKey = "f75cb668c488053420a8d04b3b31fdd5";
+var weatherKey = "f75cb668c488053420a8d04b3b31fdd5";
 
-
+// pulls weather criteria from cityName lat and lon properties
 var fetchWeather = function(cityCoord) {
+  // create lat and lon variables to feed into openweather for weather criteria
   let lat = cityCoord.lat;
   let lon = cityCoord.lon;
   console.log(lat);
   console.log(lon);
 
-  var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}"
 
+  var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=f75cb668c488053420a8d04b3b31fdd5"
+
+  fetch(weatherUrl) 
+    .then(function(response) {
+      return response.json();
+    })
+    .then (function(data) {
+      console.log("data", data);
+      // if(!data[0]) {
+      //   alert("City not found");
+      // } else { 
+      //   console.log(data[0].lat);
+      //   var cityCoord = {lat: data[0].lat, lon: data[0].lon};
+      //   console.log(cityCoord)
+      //   fetchWeather(cityCoord);
+ 
+      // }
+    })
+    .catch(function(error) {
+      console.error(error);
+    })
 
 };
 
@@ -78,22 +100,6 @@ var fetchLocation = function(cityName) {
     .catch(function(error) {
       console.error(error);
     })
-      // var cityLat = JSON.stringify(data.lat);
-      // // request was successful
-      // if (response.ok) {
-      //   console.log(response);
-      //   response.json().then(function(data) {
-      //     console.log(data);
-      //     displayRepos(data, user);
-        
-      //     console.log(cityLat);
-      //   });
-      // } else {
-      //   alert("Error: " + response.statusText);
-      // }
-   
-  
-   
 };
 
 var getFeaturedRepos = function(language) {
