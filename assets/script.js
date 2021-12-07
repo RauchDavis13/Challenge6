@@ -1,19 +1,36 @@
 var cityFormEl = document.querySelector("#user-form");
 var languageButtonsEl = document.querySelector("#language-buttons");
+var displayCity = document.querySelector("#cityDisplay");
+var currentDateDisplay = document.querySelector("#currentDateDisplay"); 
 var cityInputEl = document.querySelector("#cityName");
 var repoContainerEl = document.querySelector("#repos-container");
 var repoSearchTerm = document.querySelector("#repo-search-term");
 var apiKey = "f75cb668c488053420a8d04b3b31fdd5";
 var weatherKey = "f75cb668c488053420a8d04b3b31fdd5";
+var current_date = document.querySelector("#current-date");
+var current_temp = document.querySelector("#current-temp");
+var current_wind = document.querySelector("#current-wind");
+var current_humidity = document.querySelector("#current-humidity");
+var dateValue;
+
+// converts UTC time code to readable date
+var dateCall = new Date();
+var  dateString = dateCall.toLocaleDateString();
+console.log(dateString);
+
 
 // pulls weather criteria from cityName lat and lon properties
 var fetchWeather = function(cityCoord) {
+  
+  
+  
   // create lat and lon variables to feed into openweather for weather criteria
-  let lat = cityCoord.lat;
-  let lon = cityCoord.lon;
+  var lat = cityCoord.lat;
+  var lon = cityCoord.lon;
+  var nameCity = cityCoord.name;
   console.log(lat);
   console.log(lon);
-
+  console.log(nameCity);
 
   var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=f75cb668c488053420a8d04b3b31fdd5"
 
@@ -23,20 +40,37 @@ var fetchWeather = function(cityCoord) {
     })
     .then (function(data) {
       console.log("data", data);
-      // if(!data[0]) {
-      //   alert("City not found");
-      // } else { 
-      //   console.log(data[0].lat);
-      //   var cityCoord = {lat: data[0].lat, lon: data[0].lon};
-      //   console.log(cityCoord)
-      //   fetchWeather(cityCoord);
+
+        var weatherCriteria = {
+          currentDate: data.current.dt,
+          currentHumidity: data.current.humidity,
+          currentTemp: data.current.temp,
+          currentWind: data.current.wind_speed,
+          // currentIcon: data.current.weather.icon;
+          dailyDate: data.daily[0].dt,
+          dailyHumidity: data.daily[0].humidity,
+          dailyTemp: data.daily[0].temp.day,
+          dailyWind: data.daily[0].wind_speed
+        };
+        console.log(weatherCriteria);
+        current_temp.textContent = (weatherCriteria.currentTemp);
+        //console.log(weatherCriteria.currentIcon);
+        console.log(current_temp);
+
+        dateValue = weatherCriteria.dailyDate;
+        console.log(dateValue);
+        new Date(dateValue);
+
+        // displays selected city name, current date and weather icon in main area
+        displayCity.textContent = (nameCity);
+        currentDateDisplay.textContent = (dateString);
+        console.log(dateString);
+        console.log(currentDateDisplay);
  
-      // }
-    })
+     })
     .catch(function(error) {
       console.error(error);
     })
-
 };
 
 
@@ -61,17 +95,6 @@ var formSubmitHandler = function(event) {
   }
 };
 
-var buttonClickHandler = function(event) {
-  // get the language attribute from the clicked element
-  var language = event.target.getAttribute("data-language");
-
-  if (language) {
-    getFeaturedRepos(language);
-
-    // clear old content
-    repoContainerEl.textContent = "";
-  }
-};
 
 
 var fetchLocation = function(cityName) {
@@ -91,7 +114,7 @@ var fetchLocation = function(cityName) {
         alert("City not found");
       } else { 
         console.log(data[0].lat);
-        var cityCoord = {lat: data[0].lat, lon: data[0].lon};
+        var cityCoord = {name: (cityName), lat: data[0].lat, lon: data[0].lon};
         console.log(cityCoord)
         fetchWeather(cityCoord);
  
@@ -101,6 +124,23 @@ var fetchLocation = function(cityName) {
       console.error(error);
     })
 };
+
+
+
+// -----------------------OLD CODE --------------------
+var buttonClickHandler = function(event) {
+  // get the language attribute from the clicked element
+  var language = event.target.getAttribute("data-language");
+
+  if (language) {
+    getFeaturedRepos(language);
+
+    // clear old content
+    repoContainerEl.textContent = "";
+  }
+};
+
+
 
 var getFeaturedRepos = function(language) {
   // format the github api url
