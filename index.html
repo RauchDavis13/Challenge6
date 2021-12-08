@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,400i,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="./assets/style.css" />
   <title>Git it Done</title>
 </head>
@@ -28,24 +29,71 @@
       </div>
 
       <div class="card">
-        <h3 class="card-header text-uppercase">Search By Topic</h3>
-        <div id="language-buttons" class="card-body">
+        <h3 class="card-header text-uppercase">Your Saved Cities</h3>
+        <div id="saved-cities" class="card-body">
           <button data-language="javascript" class="btn">JavaScript</button>
-          <button data-language="html" class="btn">HTML</button>
-          <button data-language="css" class="btn">CSS</button>
-        </div>
+       </div>
       </div>
     </div>
 
-    <div id="main-top" class="col-12 col-md-8">
-      <h1 id="cityDisplay" class="subtitle"><span id="currentDateDisplay"></span></h1>
-      <ul id="current-container" class="list-group">
-        <li id="current-date"></li>
-        <li id="current-temp"></li>
-        <li id="current-wind"></li>
-        <li id="current-humidity"></li>
-      </ul>
+    <div id="main-top" class="h-10 col-12 col-md-8 ">
+      <div id="currentBox" class=" m-1 current-box">
+        <h1 id="cityDisplay" class="subtitle"><span class="dateDisplay" id="currentDateDisplay"></span></h1>
+        <ul id="current-container" class="list-group">
+          <li id="current-temp">Temp: <span id="currentTempSpan"></span></li>
+          <li id="current-wind">Wind: <span id="currentWindSpan"></span></li>
+          <li id="current-humidity">Humidity: <span id="currentHumidSpan"></span></li>
+          <li id="current-uvi">UV: <span id="currentUvSpan"></span></li>
+        </ul>
+      </div>
     </div>
+    <section id="five-day" class="fiveDay">
+      <div id="day-one-container" class="dayBox">
+        <ul class="daily">
+          <li>Day 1: <span id="oneDate"></span></li>
+          <li> <span id="oneIcon"></span></li>
+          <li>Temp: <span id="oneTemp"></span> </li>
+          <li>Wind: <span id="oneWind"></span></li>
+          <li>Humdity: <span id="oneHumidity"></span></li>
+        </ul>
+      </div>
+      <div id="day-two-container" class="dayBox">
+        <ul class="daily">
+          <li>Day 2: <span id="twoDate"></span></li>
+          <li> <span id="twoIcon"></span></li>
+          <li>Temp: <span id="twoTemp"></span> </li>
+          <li>Wind: <span id="twoWind"></span></li>
+          <li>Humdity: <span id="twoHumidity"></span></li>
+        </ul>
+      </div>
+      <div id="day-three-container" class="dayBox">
+        <ul class="daily">
+          <li>Day 3: <span id="threeDate"></span></li>
+          <li> <span id="threeIcon"></span></li>
+          <li>Temp: <span id="threeTemp"></span> </li>
+          <li>Wind: <span id="threeWind"></span></li>
+          <li>Humdity: <span id="threeHumidity"></span></li>
+        </ul>
+      </div>
+      <div id="day-four-container" class="dayBox">
+        <ul class="daily">
+          <li>Day 4: <span id="fourDate"></span></li>
+          <li> <span id="fourIcon"></span></li>
+          <li>Temp: <span id="fourTemp"></span> </li>
+          <li>Wind: <span id="fourWind"></span></li>
+          <li>Humdity: <span id="fourHumidity"></span></li>
+        </ul>
+      </div>
+      <div id="day-five-container" class="dayBox">
+        <ul class="daily">
+          <li>Day 5: <span id="fiveDate"></span></li>
+          <li> <span id="fiveIcon"></span></li>
+          <li>Temp: <span id="fiveTemp"></span> </li>
+          <li>Wind: <span id="fiveWind"></span></li>
+          <li>Humdity: <span id="fiveHumidity"></span></li>
+        </ul>
+      </div>
+    </section>
   </main>
 
   <script src="./assets/script.js"></script>

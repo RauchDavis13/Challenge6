@@ -1,7 +1,8 @@
 var cityFormEl = document.querySelector("#user-form");
 var languageButtonsEl = document.querySelector("#language-buttons");
 var displayCity = document.querySelector("#cityDisplay");
-var currentDateDisplay = document.querySelector("#currentDateDisplay"); 
+var currentDateDisplay = document.getElementById("currentDateDisplay"); 
+var dateDisplay = document.getElementsByClassName("dateDisplay");
 var cityInputEl = document.querySelector("#cityName");
 var repoContainerEl = document.querySelector("#repos-container");
 var repoSearchTerm = document.querySelector("#repo-search-term");
@@ -11,12 +12,20 @@ var current_date = document.querySelector("#current-date");
 var current_temp = document.querySelector("#current-temp");
 var current_wind = document.querySelector("#current-wind");
 var current_humidity = document.querySelector("#current-humidity");
+var current_uvi = document.querySelector("#current-uvi");
+var currentTempSpan = document.getElementById("currentTempSpan");
+var currentWindSpan = document.getElementById("currentWindSpan");
+var currentHumidSpan = document.getElementById("currentHumidSpan");
+var currentUvSpan = document.getElementById("currentUvSpan");
 var dateValue;
 
 // converts UTC time code to readable date
 var dateCall = new Date();
-var  dateString = dateCall.toLocaleDateString();
+var  dateObj = dateCall.toLocaleDateString();
+var dateString = JSON.stringify(dateObj);
 console.log(dateString);
+
+displayCity.textContent= ("Your City");
 
 
 // pulls weather criteria from cityName lat and lon properties
@@ -46,26 +55,42 @@ var fetchWeather = function(cityCoord) {
           currentHumidity: data.current.humidity,
           currentTemp: data.current.temp,
           currentWind: data.current.wind_speed,
+          currentUv: data.current.uvi,
           // currentIcon: data.current.weather.icon;
           dailyDate: data.daily[0].dt,
           dailyHumidity: data.daily[0].humidity,
           dailyTemp: data.daily[0].temp.day,
           dailyWind: data.daily[0].wind_speed
         };
-        console.log(weatherCriteria);
-        current_temp.textContent = (weatherCriteria.currentTemp);
-        //console.log(weatherCriteria.currentIcon);
-        console.log(current_temp);
+        
 
         dateValue = weatherCriteria.dailyDate;
-        console.log(dateValue);
         new Date(dateValue);
+        console.log(dateValue);
 
         // displays selected city name, current date and weather icon in main area
         displayCity.textContent = (nameCity);
         currentDateDisplay.textContent = (dateString);
+        
+        //dateDisplay.textContent = (dateString);
         console.log(dateString);
+        console.log(dateDisplay);
         console.log(currentDateDisplay);
+            //console.log(weatherCriteria.currentIcon);
+
+        console.log(weatherCriteria);
+        currentTempSpan.textContent = (weatherCriteria.currentTemp);
+        currentWindSpan.textContent = (weatherCriteria.currentWind);
+        currentHumidSpan.textContent = (weatherCriteria.currentHumidity);
+        currentUvSpan.textContent = (weatherCriteria.currentUv);
+    
+        console.log(current_temp);
+
+
+        
+        //for (var i = 0; i <=5; i++)
+
+        //oneDate.textContent = 
  
      })
     .catch(function(error) {
