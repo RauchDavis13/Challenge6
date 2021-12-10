@@ -1,29 +1,30 @@
 var cityFormEl = document.querySelector("#user-form");
 var languageButtonsEl = document.querySelector("#language-buttons");
-var displayCity = document.querySelector("#cityDisplay");
-var currentDateDisplay = document.getElementById("currentDateDisplay"); 
-var dateDisplay = document.getElementsByClassName("dateDisplay");
+
 var cityInputEl = document.querySelector("#cityName");
 var repoContainerEl = document.querySelector("#repos-container");
 var repoSearchTerm = document.querySelector("#repo-search-term");
-var apiKey = "f75cb668c488053420a8d04b3b31fdd5";
-var weatherKey = "f75cb668c488053420a8d04b3b31fdd5";
+var APIKey = "f75cb668c488053420a8d04b3b31fdd5";
 var current_date = document.querySelector("#current-date");
+
 var current_temp = document.querySelector("#current-temp");
 var current_wind = document.querySelector("#current-wind");
 var current_humidity = document.querySelector("#current-humidity");
 var current_uvi = document.querySelector("#current-uvi");
+
+// html connections for display of selected city, current day date and weather condition icon
+var displayCity = document.querySelector("#cityDisplay");
+var dateDisplay = document.getElementsByClassName("dateDisplay");
+var current_icon = document.getElementsByClassName("current-icon");
+
+// html connections for display of current day weather conditions
+var currentDateDisplay = document.getElementById("currentDateDisplay"); 
 var currentTempSpan = document.getElementById("currentTempSpan");
 var currentWindSpan = document.getElementById("currentWindSpan");
 var currentHumidSpan = document.getElementById("currentHumidSpan");
 var currentUvSpan = document.getElementById("currentUvSpan");
-var dateValue;
-
-// converts UTC time code to readable date
-var dateCall = new Date();
-var  dateObj = dateCall.toLocaleDateString();
-var dateString = JSON.stringify(dateObj);
-console.log(dateString);
+var currentDateValue;
+var dailyDateValue;
 
 displayCity.textContent= ("Your City");
 
@@ -37,18 +38,15 @@ var fetchWeather = function(cityCoord) {
   var lat = cityCoord.lat;
   var lon = cityCoord.lon;
   var nameCity = cityCoord.name;
-  console.log(lat);
-  console.log(lon);
-  console.log(nameCity);
 
-  var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=f75cb668c488053420a8d04b3b31fdd5"
+  var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=f75cb668c488053420a8d04b3b31fdd5"
 
   fetch(weatherUrl) 
     .then(function(response) {
       return response.json();
     })
     .then (function(data) {
-      console.log("data", data);
+    console.log("data", data);
 
         var weatherCriteria = {
           currentDate: data.current.dt,
@@ -56,41 +54,73 @@ var fetchWeather = function(cityCoord) {
           currentTemp: data.current.temp,
           currentWind: data.current.wind_speed,
           currentUv: data.current.uvi,
-          // currentIcon: data.current.weather.icon;
-          dailyDate: data.daily[0].dt,
-          dailyHumidity: data.daily[0].humidity,
-          dailyTemp: data.daily[0].temp.day,
-          dailyWind: data.daily[0].wind_speed
-        };
-        
+          weatherIcon: data.current.weather[0].icon,          
+        };        
 
-        dateValue = weatherCriteria.dailyDate;
-        new Date(dateValue);
-        console.log(dateValue);
+        // takes unix timecode and translates to date
+        var dateCode = weatherCriteria.currentDate;  
+        var dateString = new Date(dateCode * 1000).toLocaleDateString("en-US");
+
+        console.log(weatherCriteria.currentDate);
+
+        var iconGet = "http://openweathermap.org/img/wn/" + weatherCriteria.weatherIcon +"2x.png";
+        
 
         // displays selected city name, current date and weather icon in main area
-        displayCity.textContent = (nameCity);
+        displayCity.textContent = (nameCity + " (" + dateString + ")");
         currentDateDisplay.textContent = (dateString);
+        current_icon.textContent = (iconGet);
+        console.log(iconGet);
+        console.log(current_icon);
+     
         
-        //dateDisplay.textContent = (dateString);
-        console.log(dateString);
-        console.log(dateDisplay);
-        console.log(currentDateDisplay);
-            //console.log(weatherCriteria.currentIcon);
+    
+        console.log(weatherCriteria.weatherIcon);
 
         console.log(weatherCriteria);
         currentTempSpan.textContent = (weatherCriteria.currentTemp);
         currentWindSpan.textContent = (weatherCriteria.currentWind);
         currentHumidSpan.textContent = (weatherCriteria.currentHumidity);
         currentUvSpan.textContent = (weatherCriteria.currentUv);
-    
-        console.log(current_temp);
+      
+        var infoLoad = function() {
+              for(var i = 0; i<=5; i++ ) {
+                dayCount = i;
+                var dailyWeather = {
+                  dailyIcon: data.daily[i].weather[0].icon,
+                  dailyDate: data.daily[i + 1].dt,
+                  dailyHumidity: data.daily[i].humidity,
+                  dailyTemp: data.daily[i].temp.day,
+                  dailyWind: data.daily[i].wind_speed
+                }
 
+                console.log(dailyWeather.dailyDate);
 
+                dateCode = dailyWeather.dailyDate;
+                var dateString = new Date(dateCode * 1000).toLocaleDateString("en-US");
+
+                console.log(dateCode);
+
+                var dateDaily = i + 1 + "Date";
+                var tempDaily = i + 1 + "Temp";
+                var windDaily = i + 1 + "Wind";
+                var humidDaily = i + 1 + "Humidity";
+                var daily_date = document.getElementById(dateDaily);
+                var daily_temp = document.getElementById(tempDaily);
+                var daily_humidity = document.getElementById(humidDaily);
+                var daily_wind = document.getElementById(windDaily);
+                console.log(dateString);
+                daily_date.textContent = (dateString);
+                daily_temp.textContent = (dailyWeather.dailyTemp);
+                daily_wind.textContent = (dailyWeather.dailyWind);
+                daily_humidity.textContent = (dailyWeather.dailyHumidity);
+
+                console.log(dailyWeather.dailyTemp);
+              }
+        }
         
-        //for (var i = 0; i <=5; i++)
 
-        //oneDate.textContent = 
+        infoLoad();  
  
      })
     .catch(function(error) {

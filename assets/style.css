@@ -57,7 +57,7 @@ body {
 }
 
 .five-day {
-  display: inline;
+  display: inline-flex;
 }
 
 .daily {
