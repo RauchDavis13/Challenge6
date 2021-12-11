@@ -87,11 +87,11 @@ var fetchWeather = function(cityCoord) {
               for(var i = 0; i<=5; i++ ) {
                 dayCount = i;
                 var dailyWeather = {
-                  dailyIcon: data.daily[i].weather[0].icon,
+                  dailyIcon: data.daily[i + 1].weather[0].icon,
                   dailyDate: data.daily[i + 1].dt,
-                  dailyHumidity: data.daily[i].humidity,
-                  dailyTemp: data.daily[i].temp.day,
-                  dailyWind: data.daily[i].wind_speed
+                  dailyHumidity: data.daily[i + 1].humidity,
+                  dailyTemp: data.daily[i + 1].temp.day,
+                  dailyWind: data.daily[i + 1].wind_speed
                 }
 
                 console.log(dailyWeather.dailyDate);
