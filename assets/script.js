@@ -1,5 +1,5 @@
 var cityFormEl = document.querySelector("#user-form");
-var languageButtonsEl = document.querySelector("#language-buttons");
+var savedCityEl = document.querySelector("#saved-cities");
 
 var cityInputEl = document.querySelector("#cityName");
 var repoContainerEl = document.querySelector("#repos-container");
@@ -26,13 +26,30 @@ var currentUvSpan = document.getElementById("currentUvSpan");
 var currentDateValue;
 var dailyDateValue;
 
+// array for saved cities
+var cityHistory = [];
+
+//cityHistory = localStorage.getItem;
+
+var cityRetrive = localStorage.getItem("cityHistory");
+cityHistory = JSON.parse(cityRetrive);
+if(cityRetrive === null) {
+  cityHistory = [];
+}
+console.log(cityHistory);
+console.log(cityHistory.length);
+
+
+
 displayCity.textContent= ("Your City");
+
+console.log(cityHistory);
+console.log(localStorage);
+
 
 
 // pulls weather criteria from cityName lat and lon properties
-var fetchWeather = function(cityCoord) {
-  
-  
+var fetchWeather = function(cityCoord) {  
   
   // create lat and lon variables to feed into openweather for weather criteria
   var lat = cityCoord.lat;
@@ -48,84 +65,105 @@ var fetchWeather = function(cityCoord) {
     .then (function(data) {
     console.log("data", data);
 
-        var weatherCriteria = {
-          currentDate: data.current.dt,
-          currentHumidity: data.current.humidity,
-          currentTemp: data.current.temp,
-          currentWind: data.current.wind_speed,
-          currentUv: data.current.uvi,
-          weatherIcon: data.current.weather[0].icon,          
-        };        
+    // variables for the incoming api data for "current" value in api data
+    var weatherCriteria = {
+      currentDate: data.current.dt,
+      currentHumidity: data.current.humidity,
+      currentTemp: data.current.temp,
+      currentWind: data.current.wind_speed,
+      currentUv: data.current.uvi,
+      weatherIcon: data.current.weather[0].icon,          
+    };        
 
-        // takes unix timecode and translates to date
-        var dateCode = weatherCriteria.currentDate;  
-        var dateString = new Date(dateCode * 1000).toLocaleDateString("en-US");
+    // takes unix timecode and translates to date
+    var dateCode = weatherCriteria.currentDate;  
+    var dateString = new Date(dateCode * 1000).toLocaleDateString("en-US");
 
-        console.log(weatherCriteria.currentDate);
+    console.log(weatherCriteria.currentDate);
 
-        var iconGet = "http://openweathermap.org/img/wn/" + weatherCriteria.weatherIcon +"2x.png";
+    var iconGet = "http://openweathermap.org/img/wn/" + weatherCriteria.weatherIcon +"2x.png";
         
 
-        // displays selected city name, current date and weather icon in main area
-        displayCity.textContent = (nameCity + " (" + dateString + ")");
-        currentDateDisplay.textContent = (dateString);
-        current_icon.textContent = (iconGet);
-        console.log(iconGet);
-        console.log(current_icon);
+    // displays selected city name, current date and weather icon in main area
+    displayCity.textContent = (nameCity + " (" + dateString + ")");
+    currentDateDisplay.textContent = (dateString);
+    current_icon.textContent = (iconGet);
+    console.log(iconGet);
+    console.log(current_icon);
      
         
     
-        console.log(weatherCriteria.weatherIcon);
+    console.log(weatherCriteria.weatherIcon);
 
-        console.log(weatherCriteria);
-        currentTempSpan.textContent = (weatherCriteria.currentTemp);
-        currentWindSpan.textContent = (weatherCriteria.currentWind);
-        currentHumidSpan.textContent = (weatherCriteria.currentHumidity);
-        currentUvSpan.textContent = (weatherCriteria.currentUv);
+    console.log(weatherCriteria);
+    currentTempSpan.textContent = (weatherCriteria.currentTemp);
+    currentWindSpan.textContent = (weatherCriteria.currentWind);
+    currentHumidSpan.textContent = (weatherCriteria.currentHumidity);
+    currentUvSpan.textContent = (weatherCriteria.currentUv);
       
-        var infoLoad = function() {
-              for(var i = 0; i<=5; i++ ) {
-                dayCount = i;
-                var dailyWeather = {
-                  dailyIcon: data.daily[i + 1].weather[0].icon,
-                  dailyDate: data.daily[i + 1].dt,
-                  dailyHumidity: data.daily[i + 1].humidity,
-                  dailyTemp: data.daily[i + 1].temp.day,
-                  dailyWind: data.daily[i + 1].wind_speed
-                }
-
-                console.log(dailyWeather.dailyDate);
-
-                dateCode = dailyWeather.dailyDate;
-                var dateString = new Date(dateCode * 1000).toLocaleDateString("en-US");
-
-                console.log(dateCode);
-
-                var dateDaily = i + 1 + "Date";
-                var tempDaily = i + 1 + "Temp";
-                var windDaily = i + 1 + "Wind";
-                var humidDaily = i + 1 + "Humidity";
-                var daily_date = document.getElementById(dateDaily);
-                var daily_temp = document.getElementById(tempDaily);
-                var daily_humidity = document.getElementById(humidDaily);
-                var daily_wind = document.getElementById(windDaily);
-                console.log(dateString);
-                daily_date.textContent = (dateString);
-                daily_temp.textContent = (dailyWeather.dailyTemp);
-                daily_wind.textContent = (dailyWeather.dailyWind);
-                daily_humidity.textContent = (dailyWeather.dailyHumidity);
-
-                console.log(dailyWeather.dailyTemp);
-              }
+    var infoLoad = function() {
+      for(var i = 0; i<=5; i++ ) {
+        dayCount = i;
+        var dailyWeather = {
+          dailyIcon: data.daily[i + 1].weather[0].icon,
+              dailyDate: data.daily[i + 1].dt,
+          dailyHumidity: data.daily[i + 1].humidity,
+          dailyTemp: data.daily[i + 1].temp.day,
+          dailyWind: data.daily[i + 1].wind_speed
         }
-        
 
-        infoLoad();  
+        dateCode = dailyWeather.dailyDate;
+        var dateString = new Date(dateCode * 1000).toLocaleDateString("en-US");
+
+        // using 'for loop' to add "i" + 1 to string to define ID name
+        var dateDaily = i + 1 + "Date";
+        var tempDaily = i + 1 + "Temp";
+        var windDaily = i + 1 + "Wind";
+        var humidDaily = i + 1 + "Humidity";
+                
+        var daily_date = document.getElementById(dateDaily);
+        var daily_temp = document.getElementById(tempDaily);
+        var daily_humidity = document.getElementById(humidDaily);
+        var daily_wind = document.getElementById(windDaily);
+
+
+        daily_date.textContent = (dateString);
+        daily_temp.textContent = (dailyWeather.dailyTemp);
+        daily_wind.textContent = (dailyWeather.dailyWind);
+        daily_humidity.textContent = (dailyWeather.dailyHumidity);
+      }
+    }        
+
+    infoLoad();  
  
-     })
-    .catch(function(error) {
-      console.error(error);
     })
+  .catch(function(error) {
+    console.error(error);
+  })
+};
+
+
+var citySaved = function(cityHistory) {
+  for (var i = 0; i<=cityHistory.length; i++) {
+
+    var savedEl = document.createElement("button");
+    savedEl.textContent = cityHistory[i];
+    savedCityEl.appendChild(savedEl);
+  }
+}
+
+
+var citySave = function(cityName) {  
+
+  if (cityHistory.indexOf(cityName) !== -1 || null) {
+      return;
+  }
+  cityHistory.push(cityName);
+  localStorage.setItem("cityHistory", JSON.stringify(cityHistory));
+  //savedCityEl.  
+  console.log(cityHistory.length);
+  citySaved(cityHistory);
+  console.log(cityHistory);
 };
 
 
@@ -137,13 +175,16 @@ var formSubmitHandler = function(event) {
   // get value from input element
   var cityName = cityInputEl.value.trim();
   console.log(cityName);
+ 
 
 
   if (cityName) {
     fetchLocation(cityName);
+    citySave(cityName);
+    console.log(cityHistory);
+    console.log(localStorage);
 
     // clear old content
-    repoContainerEl.textContent = "";
     cityInputEl.value = "";
   } else {
     alert("Please enter a City");
@@ -154,6 +195,7 @@ var formSubmitHandler = function(event) {
 
 var fetchLocation = function(cityName) {
   console.log(cityName);
+
   // format the openweather api url
   var locationUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=f75cb668c488053420a8d04b3b31fdd5";
   console.log("locationUrl", locationUrl);
@@ -172,7 +214,8 @@ var fetchLocation = function(cityName) {
         var cityCoord = {name: (cityName), lat: data[0].lat, lon: data[0].lon};
         console.log(cityCoord)
         fetchWeather(cityCoord);
- 
+
+
       }
     })
     .catch(function(error) {
@@ -197,68 +240,7 @@ var buttonClickHandler = function(event) {
 
 
 
-var getFeaturedRepos = function(language) {
-  // format the github api url
-  var apiUrl = "https://api.github.com/search/repositories?q=" + language + "+is:featured&sort=help-wanted-issues";
 
-  // make a get request to url
-  fetch(apiUrl).then(function(response) {
-    // request was successful
-    if (response.ok) {
-      response.json().then(function(data) {
-        displayRepos(data.items, language);
-      });
-    } else {
-      alert("Error: " + response.statusText);
-    }
-  });
-};
-
-// var displayRepos = function(repos, searchTerm) {
-//   // check if api returned any repos
-//   if (repos.length === 0) {
-//     repoContainerEl.textContent = "No repositories found.";
-//     return;
-//   }
-
-//   repoSearchTerm.textContent = searchTerm;
-
-//   // loop over repos
-//   for (var i = 0; i < repos.length; i++) {
-//     // format repo name
-//     var repoName = repos[i].owner.login + "/" + repos[i].name;
-
-//     // create a link for each repo
-//     var repoEl = document.createElement("a");
-//     repoEl.classList = "list-item flex-row justify-space-between align-center";
-//     repoEl.setAttribute("href", "./single-repo.html?repo=" + repoName);
-
-//     // create a span element to hold repository name
-//     var titleEl = document.createElement("span");
-//     titleEl.textContent = repoName;
-
-//     // append to container
-//     repoEl.appendChild(titleEl);
-
-//     // create a status element
-//     var statusEl = document.createElement("span");
-//     statusEl.classList = "flex-row align-center";
-
-//     // check if current repo has issues or not
-//     if (repos[i].open_issues_count > 0) {
-//       statusEl.innerHTML =
-//         "<i class='fas fa-times status-icon icon-danger'></i>" + repos[i].open_issues_count + " issue(s)";
-//     } else {
-//       statusEl.innerHTML = "<i class='fas fa-check-square status-icon icon-success'></i>";
-//     }
-
-//     // append to container
-//     repoEl.appendChild(statusEl);
-
-//     // append container to the dom
-//     repoContainerEl.appendChild(repoEl);
-//   }
-// };
 
 // add event listeners to form and button container
 cityFormEl.addEventListener("submit", formSubmitHandler);
