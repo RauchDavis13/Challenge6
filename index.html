@@ -21,7 +21,7 @@
   <main class="flex-row justify-space-between">
     <div class="col-12 col-md-4">
       <div class="card">
-        <h3 class="card-header text-uppercase">Search for a City</h3>
+        <h3 class="card-header">Search for a City:</h3>
         <form id="user-form" class="card-body">
           <input name="citySearch" id="cityName" type="text" autofocus="true" class="form-input" />
           <button type="submit" class="btn">Search</button>
@@ -29,15 +29,16 @@
       </div>
 
       <div class="card">
-        <h3 class="card-header text-uppercase">Your Saved Cities</h3>
+        <!-- <h4 class="card-header justify-content-center text-uppercase">Saved Cities</h4> -->
         <div id="saved-cities" class="card-body">
     
        </div>
       </div>
     </div>
     <!-- <div id="weatherDisp" class="weatherDisp"> -->
-      <div id="main-top" class="h-10 col-12 col-md-8 ">
-        <div id="currentBox" class=" m-1 current-box">
+    <div id="main-top" class="h-10 col-12 col-md-8 ">
+      <div id="currentShell" >
+        <div id="currentBox" class="p-2 current-box">
           <h1 id="cityDisplay" class="subtitle"> <i class="current-icon"></i><span class="dateDisplay" id="currentDateDisplay"></span></h1>
           <ul id="current-container" class="list-group">
             <li id="current-temp">Temp: <span id="currentTempSpan"></span></li>
@@ -47,7 +48,8 @@
           </ul>
         </div>
       </div>
-      <section id="five-day" class="fiveDay">
+      <h3 class="five-text">5 Day Forecast:</h3>
+      <section id="five-day" class="flex-row justify-space-between">     
         <div id="day-one-container" class="dayBox">
           <ul class="daily">
             <li>Day 1: <span id="1Date"></span></li>
@@ -94,6 +96,8 @@
           </ul>
         </div>
       </section>
+    </div>
+      
     <!-- </div> -->
 
   </main>

@@ -1,8 +1,9 @@
 :root {
-  --primary: #ccdad1;
+  --primary: darkblue;
   --secondary: #9caea9;
-  --tertiary: #788585;
-  --light-dark: #6f6866;
+  --tertiary: #dcdddd;
+  --light-dark: rgb(119, 212, 255);
+  --white: rgb(255, 255, 255);
   --dark: #38302e;
   --border-radius: .3rem;
 }
@@ -14,7 +15,7 @@
 .hero{
   justify-content: center;
   padding: 3%;
-  background-image: linear-gradient(to right, blue, rgb(2, 2, 73));
+  background-image: linear-gradient(to right, blue, var(--primary));
 }
 
 .app-title {
@@ -36,12 +37,14 @@ body {
 
 #main-top {
   color: black;
-  border: black 2px solid;
   height: 70%;
 }
 
+#user-form {
+  border-bottom:  solid var(--dark);
+}
 
-#main-top, h1 {
+#main-top, h1, .btn2 {
   text-transform: capitalize;
 }
 .dateDisplay {
@@ -52,8 +55,18 @@ body {
   color: black;
 }
 
+.current-box {
+  border: black 2px solid;
+  border-radius: var(--border-radius);
+}
+
+.five-text {
+  margin: 1rem auto 0.5rem 0;
+}
+
 .dayBox {
   border: black 2px solid;
+  /* line-height: 1.5; */
 }
 
 .five-day {
@@ -62,8 +75,10 @@ body {
 
 .daily {
   list-style-type: none;
+  /* line-height: 1.5; */
   padding-left: 0;
   width: 150px;
+  height: 100%;
   color: white;
   background-color: darkblue;
 }
@@ -89,6 +104,8 @@ p {
   font-size: 1.2rem;
 }
 
+
+
  .btn {
   font-size: 1.3rem;
   text-decoration:none;
@@ -97,7 +114,7 @@ p {
   display: block;
   margin: 5px 0;
   border-radius: var(--border-radius);
-  color: var(--primary);
+  color: var(--white);
   border: none;
   outline: none;
   background-color: var(--light-dark);
@@ -139,7 +156,55 @@ p {
   box-shadow: 2px 2px var(--dark);
 }
 
+.btn2 {
+  font-size: 1.3rem;
+  text-decoration:none;
+  padding: 6px 5px;
+  width: 100%;
+  display: block;
+  margin: 5px 0;
+  border-radius: var(--border-radius);
+  color: var(--white);
+  border: none;
+  outline: none;
+  background-color: var(--secondary);
+  box-shadow: 3px 3px var(--dark);
+  transform: translate(-1px, -1px);
+}
 
+ .btn2:hover {
+  color: var(--primary);
+  background-color: var(--tertiary);
+  transform: translate(0, 0);
+  box-shadow: 2px 2px var(--dark);
+}
+
+.btn2-inline {
+  display: inline;
+}
+
+.btn2-back {
+  border-radius: var(--border-radius);
+  color: var(--primary);
+  border: none;
+  outline: none;
+  background-color: var(--light-dark);
+  box-shadow: 3px 3px var(--secondary);
+  transform: translate(-1px, -1px);
+  display: inline-block;
+  width: auto;
+  margin-top: 20px;
+  padding: 15px;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+ .btn2-back:hover {
+  color: var(--primary);
+  background-color: var(--tertiary);
+  transform: translate(0, 0);
+  box-shadow: 2px 2px var(--dark);
+}
 .list-group {
   padding: 0;
   list-style: none;
@@ -161,7 +226,7 @@ p {
 .status-icon {
   padding: 2px 5px;
   margin: 0 5px;
-  background-color: rgba(255,255,255, 1);
+  border: 2px solid var(--secondary);
   border-radius: var(--border-radius);
 }
 
@@ -176,15 +241,14 @@ p {
 /* CARDS */
 .card {
   margin: 0 0 20px 0;
-  border: 3px solid var(--dark);
-  border-radius: var(--border-radius);
+  
 }
 
 .card-header {
   color: var(--primary);
-  background-color: var(--dark);
+  background-color: none;
   padding: 2.5%;
-  border-radius: calc(.18rem - 1px) calc(.18rem - 1px) 0 0;
+  border-radius: calc(.18rem - 1px) calc(.18rem - 1px) 0 0; */
 }
 
 .card-body {
@@ -208,8 +272,8 @@ p {
   padding: 3%;
   margin: 5px 0;
   font-size: 1.2rem;
-  border: 2px solid var(--light-dark);
-  border-radius: var(--border-radius);
+  /* border: 2px solid var(--light-dark);
+  border-radius: var(--border-radius); */
 }
 
 /* HEIGHT / WIDTH UTILS */

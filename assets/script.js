@@ -24,18 +24,9 @@ var dailyDateValue;
 // array for saved cities
 var cityHistory = [];
 
-
-
-
 displayCity.textContent= ("Your City");
 
-console.log(cityHistory);
-console.log(localStorage);
-
-
-console.log(cityHistory);
-console.log(cityHistory.length);
-
+// loads ciyHistory array from local storage at page load/refresh
 window.addEventListener('load', (event) => {
   console.log('The page has fully loaded');
   // loads data from local storage
@@ -49,9 +40,8 @@ window.addEventListener('load', (event) => {
   
 });
 
+// sends saved cities to be loaded into saved user city buttons
 var citySaved = function() {
-  console.log(cityHistory.length);
-
   if(cityHistory.length <= 0) {
     return    
   } 
@@ -63,9 +53,6 @@ var citySaved = function() {
     }
   }
 };
-
-
-
 
 // checks incoming city string input and passes unique cities to array for saved cities
 var citySave = function(cityName) {  
@@ -87,6 +74,7 @@ var cityLoad = function(cityName) {
   var savedEl = document.createElement("button");
   //savedEl.classList (justify-content-center);
   savedEl.textContent = cityName;
+  savedEl.className = "btn2";
   console.log(savedEl.textContent);
   savedCityEl.appendChild(savedEl);
 
@@ -110,6 +98,7 @@ var fetchWeather = function(cityCoord) {
 
   var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=f75cb668c488053420a8d04b3b31fdd5"
 
+  // calls open weather api from city coordinates
   fetch(weatherUrl) 
     .then(function(response) {
       return response.json();
@@ -141,29 +130,31 @@ var fetchWeather = function(cityCoord) {
     currentDateDisplay.textContent = (dateString);
     current_icon.textContent = (iconGet);
     console.log(iconGet);
-    console.log(current_icon);
-     
-        
+    console.log(current_icon);       
     
     console.log(weatherCriteria.weatherIcon);
 
     console.log(weatherCriteria);
+
+    // loads current weather data to html
     currentTempSpan.textContent = (weatherCriteria.currentTemp);
     currentWindSpan.textContent = (weatherCriteria.currentWind);
     currentHumidSpan.textContent = (weatherCriteria.currentHumidity);
     currentUvSpan.textContent = (weatherCriteria.currentUv);
       
+    // handles defining and loading 5 day forecast data
     var infoLoad = function() {
       for(var i = 0; i<=5; i++ ) {
         dayCount = i;
         var dailyWeather = {
           dailyIcon: data.daily[i + 1].weather[0].icon,
-              dailyDate: data.daily[i + 1].dt,
+          dailyDate: data.daily[i + 1].dt,
           dailyHumidity: data.daily[i + 1].humidity,
           dailyTemp: data.daily[i + 1].temp.day,
           dailyWind: data.daily[i + 1].wind_speed
         }
 
+        // handles turning unix timestamp into readable date
         dateCode = dailyWeather.dailyDate;
         var dateString = new Date(dateCode * 1000).toLocaleDateString("en-US");
 
@@ -173,41 +164,35 @@ var fetchWeather = function(cityCoord) {
         var windDaily = i + 1 + "Wind";
         var humidDaily = i + 1 + "Humidity";
                 
+        // connects to daily weather data containers
         var daily_date = document.getElementById(dateDaily);
         var daily_temp = document.getElementById(tempDaily);
         var daily_humidity = document.getElementById(humidDaily);
         var daily_wind = document.getElementById(windDaily);
 
-
+        // loads daily weather containers
         daily_date.textContent = (dateString);
         daily_temp.textContent = (dailyWeather.dailyTemp);
         daily_wind.textContent = (dailyWeather.dailyWind);
         daily_humidity.textContent = (dailyWeather.dailyHumidity);
       }
-    }        
-
-    infoLoad();  
- 
+    }
+    infoLoad();   
     })
   .catch(function(error) {
     console.error(error);
   })
 };
 
-
-
-
-
+// handles city search event
 var formSubmitHandler = function(event) {
   // prevent page from refreshing
   event.preventDefault();
 
-  // get value from input element
+  // get value(city name) from input element
   var cityName = cityInputEl.value.trim();
-  console.log(cityName);
- 
-
-
+  
+  // sends cityName to both fetchLocation and citySave functions
   if (cityName) {
     fetchLocation(cityName);
     citySave(cityName);
@@ -221,8 +206,7 @@ var formSubmitHandler = function(event) {
   }
 };
 
-
-
+// uses calls geolocator api and loads cityName to define lat and lon data for weather api
 var fetchLocation = function(cityName) {
   console.log(cityName);
 
@@ -236,16 +220,13 @@ var fetchLocation = function(cityName) {
       return response.json();
     })
     .then (function(data) {
+      // viewable geolocation api data in console log  
       console.log("data", data);
       if(!data[0]) {
         alert("City not found");
       } else { 
-        console.log(data[0].lat);
         var cityCoord = {name: (cityName), lat: data[0].lat, lon: data[0].lon};
-        console.log(cityCoord)
         fetchWeather(cityCoord);
-
-
       }
     })
     .catch(function(error) {
