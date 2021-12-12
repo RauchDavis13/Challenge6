@@ -7,11 +7,6 @@ var repoSearchTerm = document.querySelector("#repo-search-term");
 var APIKey = "f75cb668c488053420a8d04b3b31fdd5";
 var current_date = document.querySelector("#current-date");
 
-var current_temp = document.querySelector("#current-temp");
-var current_wind = document.querySelector("#current-wind");
-var current_humidity = document.querySelector("#current-humidity");
-var current_uvi = document.querySelector("#current-uvi");
-
 // html connections for display of selected city, current day date and weather condition icon
 var displayCity = document.querySelector("#cityDisplay");
 var dateDisplay = document.getElementsByClassName("dateDisplay");
@@ -29,8 +24,7 @@ var dailyDateValue;
 // array for saved cities
 var cityHistory = [];
 
-//cityHistory = localStorage.getItem;
-
+// loads data from local storage
 var cityRetrive = localStorage.getItem("cityHistory");
 cityHistory = JSON.parse(cityRetrive);
 if(cityRetrive === null) {
@@ -38,6 +32,30 @@ if(cityRetrive === null) {
 }
 console.log(cityHistory);
 console.log(cityHistory.length);
+
+var citySaved = function() {
+  for (var i = 0; i<=cityHistory.length; i++) {
+
+    
+  }   
+}
+
+var citySave = function(cityName) {  
+  if (cityHistory.indexOf(cityName) !== -1 || null) {
+      return;
+  }
+  cityHistory.push(cityName);
+  localStorage.setItem("cityHistory", JSON.stringify(cityHistory));
+  citySaved(cityHistory);
+
+  var savedEl = document.createElement("button");
+  //savedEl.classList (justify-content-center);
+  savedEl.textContent = cityName;
+  console.log(savedEl.textContent);
+  savedCityEl.appendChild(savedEl);
+
+};
+
 
 
 
@@ -143,28 +161,6 @@ var fetchWeather = function(cityCoord) {
 };
 
 
-var citySaved = function(cityHistory) {
-  for (var i = 0; i<=cityHistory.length; i++) {
-
-    var savedEl = document.createElement("button");
-    savedEl.textContent = cityHistory[i];
-    savedCityEl.appendChild(savedEl);
-  }
-}
-
-
-var citySave = function(cityName) {  
-
-  if (cityHistory.indexOf(cityName) !== -1 || null) {
-      return;
-  }
-  cityHistory.push(cityName);
-  localStorage.setItem("cityHistory", JSON.stringify(cityHistory));
-  //savedCityEl.  
-  console.log(cityHistory.length);
-  citySaved(cityHistory);
-  console.log(cityHistory);
-};
 
 
 
@@ -238,10 +234,5 @@ var buttonClickHandler = function(event) {
   }
 };
 
-
-
-
-
 // add event listeners to form and button container
 cityFormEl.addEventListener("submit", formSubmitHandler);
-languageButtonsEl.addEventListener("click", buttonClickHandler);
