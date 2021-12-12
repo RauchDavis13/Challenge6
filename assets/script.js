@@ -24,30 +24,66 @@ var dailyDateValue;
 // array for saved cities
 var cityHistory = [];
 
-// loads data from local storage
-var cityRetrive = localStorage.getItem("cityHistory");
-cityHistory = JSON.parse(cityRetrive);
-if(cityRetrive === null) {
-  cityHistory = [];
-}
+
+
+
+displayCity.textContent= ("Your City");
+
+console.log(cityHistory);
+console.log(localStorage);
+
+
 console.log(cityHistory);
 console.log(cityHistory.length);
 
+window.addEventListener('load', (event) => {
+  console.log('The page has fully loaded');
+  // loads data from local storage
+  var cityRetrive = localStorage.getItem("cityHistory");
+  cityHistory = JSON.parse(cityRetrive);
+  if(cityRetrive === null) {
+    cityHistory = [];
+  }
+  console.log(cityHistory);
+  citySaved(cityHistory);
+  
+});
+
 var citySaved = function() {
-  for (var i = 0; i<=cityHistory.length; i++) {
+  console.log(cityHistory.length);
 
-    
-  }   
-}
+  if(cityHistory.length <= 0) {
+    return    
+  } 
+  else {
+    for (var i = 0; i<=cityHistory.length-1; i++) {
+      cityName = cityHistory[i];
+      cityLoad(cityName);
+      console.log(cityName);
+    }
+  }
+};
 
+
+
+
+// checks incoming city string input and passes unique cities to array for saved cities
 var citySave = function(cityName) {  
-  if (cityHistory.indexOf(cityName) !== -1 || null) {
+  if (cityHistory.indexOf(cityName) !== -1) {
       return;
+  }
+  else if (cityName === null) {
+    return;
   }
   cityHistory.push(cityName);
   localStorage.setItem("cityHistory", JSON.stringify(cityHistory));
-  citySaved(cityHistory);
+  //citySaved(cityName);
+  console.log(cityHistory);
+  cityLoad(cityName);
+};
 
+// creates buttons from saved cities
+var cityLoad = function(cityName) {
   var savedEl = document.createElement("button");
   //savedEl.classList (justify-content-center);
   savedEl.textContent = cityName;
@@ -55,8 +91,6 @@ var citySave = function(cityName) {
   savedCityEl.appendChild(savedEl);
 
 };
-
-
 
 
 displayCity.textContent= ("Your City");
@@ -233,6 +267,8 @@ var buttonClickHandler = function(event) {
     repoContainerEl.textContent = "";
   }
 };
+
+
 
 // add event listeners to form and button container
 cityFormEl.addEventListener("submit", formSubmitHandler);
