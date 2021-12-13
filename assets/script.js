@@ -130,7 +130,7 @@ var fetchWeather = function(cityCoord) {
     console.log(weatherCriteria.weatherIcon);
 
     var iconCurrent = weatherCriteria.weatherIcon;
-    var iconCurrentUrl = "http://openweathermap.org/img/wn/" + iconCurrent + "@2x.png";
+    var iconCurrentUrl = "https://openweathermap.org/img/wn/" + iconCurrent + "@2x.png";
     
     var iconCurrentEl = document.querySelector("#currentIcon");
 
@@ -240,7 +240,7 @@ var fetchLocation = function(cityName) {
   console.log(cityName);
 
   // format the openweather api url
-  var locationUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=f75cb668c488053420a8d04b3b31fdd5";
+  var locationUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=f75cb668c488053420a8d04b3b31fdd5";
   console.log("locationUrl", locationUrl);
  
   // make a get request to url
