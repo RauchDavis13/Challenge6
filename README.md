@@ -33,13 +33,12 @@ Open Weather weather API: https://api.openweathermap.org/data/2.5/onecall?lat={l
 Open Weather Icon API: http://openweathermap.org/img/wn/10d@2x.png 
 
 
-
+GitHub repository: https://github.com/RauchDavis13/Challenge6.git
 
 ## Website..
 
 - Successfully created live Git based URL
-https://rauchdavis13.github.io/Project-1/
-
+https://rauchdavis13.github.io/Challenge6/
 
 ## Thank you's
 Matthew Kim(Instructor)
