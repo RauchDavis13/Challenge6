@@ -114,39 +114,36 @@ var fetchWeather = function(cityCoord) {
     console.log("data", data);
 
     // variables for the incoming api data for "current" value in api data
-    var weatherCriteria = {
-      currentDate: data.current.dt,
-      currentHumidity: data.current.humidity,
-      currentTemp: data.current.temp,
-      currentWind: data.current.wind_speed,
-      currentUv: data.current.uvi,
-      weatherIcon: data.current.weather[0].icon,          
-    };        
+    var currentDate = data.current.dt;
+    var currentHumidity = data.current.humidity;
+    var currentTemp = data.current.temp;
+    var currentWind = data.current.wind_speed;
+    var currentUv = data.current.uvi;
+
+    
 
     // takes unix timecode and translates to date
-    var dateCode = weatherCriteria.currentDate;  
+    var dateCode = currentDate;  
     var dateString = new Date(dateCode * 1000).toLocaleDateString("en-US");
 
-    console.log(weatherCriteria.weatherIcon);
+    // console.log(weatherCriteria.weatherIcon);
 
-    var iconCurrent = weatherCriteria.weatherIcon;
-    var iconCurrentUrl = "https://openweathermap.org/img/wn/" + iconCurrent + "@2x.png";
+    // var iconCurrent = weatherCriteria.weatherIcon;
+    var iconUrl = "https://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png";
     
     var iconCurrentEl = document.querySelector("#currentIcon");
+    iconCurrentEl.innerHTML = "";
 
-    var iconCurrentCreate = document.createElement("i");
-    iconCurrentCreate.src = ("iconCurrentUrl");
-    iconCurrentCreate.alt = ("current weather icon");
-   
-    iconCurrentEl.appendChild(iconCurrentCreate);
+    var iconCurrentCreate = document.createElement("img");
+    iconCurrentCreate.src = (iconUrl);
+    iconCurrentCreate.alt = ("Current weather icon");
+    //iconCurrentEl.textContent = "";
     console.log(iconCurrentCreate);
+    
   
-    console.log(iconCurrentEl);
-    iconCurrentEl.textContent = "";
-    console.log(iconCurrentEl.textContent);
-    iconCurrentEl.textContent = (iconCurrentUrl);
+
     //console.log(iconCurrentString);
-    //iconCurrentEl.append(iconCurrentString);
+    iconCurrentEl.append(iconCurrentCreate);
     console.log(iconCurrentEl);
     console.log(document.getElementById("currentIcon"));
         
@@ -158,15 +155,32 @@ var fetchWeather = function(cityCoord) {
     // console.log(iconGet);
     console.log(current_icon);       
     
-    console.log(weatherCriteria.weatherIcon);
+    //console.log(weatherCriteria.weatherIcon);
 
-    console.log(weatherCriteria);
+    //console.log(weatherCriteria);
 
     // loads current weather data to html
-    currentTempSpan.textContent = (weatherCriteria.currentTemp);
-    currentWindSpan.textContent = (weatherCriteria.currentWind);
-    currentHumidSpan.textContent = (weatherCriteria.currentHumidity);
-    currentUvSpan.textContent = (weatherCriteria.currentUv);
+    currentTempSpan.textContent = (currentTemp);
+    currentWindSpan.textContent = (currentWind);
+    currentHumidSpan.textContent = (currentHumidity);
+    currentUvSpan.textContent = (currentUv);
+
+    if(currentUv <=3) {
+      document.getElementById("currentUvSpan").style.backgroundColor = "green";
+      document.getElementById("currentUvSpan").style.color = "white";
+    }
+    else if (currentUv <=8) {
+      document.getElementById("currentUvSpan").style.backgroundColor = "yellow";
+      document.getElementById("currentUvSpan").style.color = "black";
+    }
+    else if (currentUv <=12) {
+      document.getElementById("currentUvSpan").style.backgroundColor = "red";
+      document.getElementById("currentUvSpan").style.color = "white";
+    }
+    else if (currentUv >=11) {
+      document.getElementById("currentUvSpan").style.backgroundColor = "darkviolet";
+      document.getElementById("currentUvSpan").style.color = "white";
+    };
       
     // handles defining and loading 5 day forecast data
     var infoLoad = function() {
@@ -179,6 +193,9 @@ var fetchWeather = function(cityCoord) {
           dailyWind: data.daily[i + 1].wind_speed,
           dailyHumidity: data.daily[i + 1].humidity
         }
+
+        iconUrl = "https://openweathermap.org/img/w/" + dailyWeather.dailyIcon + ".png";
+        
 
         // handles turning unix timestamp into readable date
         dateCode = dailyWeather.dailyDate;
@@ -198,9 +215,11 @@ var fetchWeather = function(cityCoord) {
         var daily_humidity = document.getElementById(humidDaily);
         var daily_wind = document.getElementById(windDaily);
 
+        daily_icon.src = (iconUrl);
+
         // loads daily weather containers
         daily_date.textContent = (dateString);
-        daily_icon.textContent = (dailyWeather.dailyIcon);
+        daily_icon.src.textContent = (dailyWeather.dailyIcon);
         daily_temp.textContent = (dailyWeather.dailyTemp);
         daily_wind.textContent = (dailyWeather.dailyWind);
         daily_humidity.textContent = (dailyWeather.dailyHumidity);
@@ -223,6 +242,7 @@ var formSubmitHandler = function(event) {
   
   // sends cityName to both fetchLocation and citySave functions
   if (cityName) {
+    
     fetchLocation(cityName);
     citySave(cityName);
     console.log(cityHistory);
@@ -230,6 +250,7 @@ var formSubmitHandler = function(event) {
 
     // clear old content
     cityInputEl.value = "";
+    
   } else {
     alert("Please enter a City");
   }

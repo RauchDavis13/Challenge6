@@ -84,6 +84,26 @@ body {
   background-color: darkblue;
 }
 
+.uvGreen {
+  background-color: green;
+  color: white;
+}
+
+.uvYellow {
+  background-color: yellow;
+  color: black;
+}
+
+.uvRed {
+  background-color: red;
+  color: white;
+}
+
+.uvViolet {
+  background-color: darkviolet;
+  color: white;
+}
+
 h1,
 h2,
 h3,
