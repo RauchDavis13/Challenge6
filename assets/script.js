@@ -169,6 +169,10 @@ var fetchWeather = function(cityCoord) {
       document.getElementById("currentUvSpan").style.backgroundColor = "green";
       document.getElementById("currentUvSpan").style.color = "white";
     }
+    else if (currentUv <=6) {
+      document.getElementById("currentUvSpan").style.backgroundColor = "orange";
+      document.getElementById("currentUvSpan").style.color = "white";
+    }
     else if (currentUv <=8) {
       document.getElementById("currentUvSpan").style.backgroundColor = "yellow";
       document.getElementById("currentUvSpan").style.color = "black";

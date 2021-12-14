@@ -17,12 +17,12 @@ The purpose of this assignment, is to create a working website in a to capture w
 
 - WHEN I search for a city / THEN I am presented with current and future conditions for that city and that city is added to the search history: Upon the user clicking the "search" button, 2 things occur.  1st, the "city" is routed to the open weather geolocator for lat and lon coordinates, then to the openweather weather API to pull data.  This then populates the various variables for date, temp, wind, humidity, uvi and icon.  2nd, the cityname is route to go into local storage and has a button created, featuring the city's name.
 
-- WHEN I view current weather conditions for that city / THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index:  Upon the user hitting the search button, the above conditions are met, except for icon.  Still working out how to bring the icon into the DOM.  Variable has been identified and string formed in javascript, however, can't figure out to how bring to the document.
+- WHEN I view current weather conditions for that city / THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index:  Upon the user hitting the search button, the above conditions are met.  
 
-- WHEN I view the UV index /THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe: This was not completed due to time.  
+- WHEN I view the UV index /THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe: Color matches suggested UVI coloring from Google (0-2 = Green, 3-5 = Yellow, 6-7 = Orange, 8-11 = Red, 12+ = Violet).  
 
 - WHEN I view future weather conditions for that city / 
-THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity: Upon the user searching a city, the user see's 5 blocks featuring a 5 day forecast showing date, wind, humidity, uvi and icon (currently, icon link is showing in place of actual icon, still working how to flow this correctly).
+THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity: Upon the user searching a city, the user see's 5 blocks featuring a 5 day forecast showing date, wind, humidity and icon.
 
 - WHEN I click on a city in the search history / THEN I am again presented with current and future conditions for that city:  The user is presented buttons for every city saved.  Upon the user clicking a city button, that city's data will populate for both current and 5 day weather conditions.
 
